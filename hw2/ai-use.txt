@@ -1,0 +1,196 @@
+# IS 6465 — Web Applications
+## Homework 2 — AirAsia Rewards Redemption System
+### AI Use Documentation
+
+**AI Tool Used:**
+GitHub Copilot in GitHub Codespaces
+ChatGPT was used to maintain a running record of my GitHub Copilot prompts and structuring my AI assist.
+
+## 1. Prompts Used
+
+### Prompt 1 — Initial Project Setup
+
+I am creating a static AirAsia Rewards Redemption System website. For the project structure, setup a folder named "hw2" with the following files: login.php, card-list.php, card-details.php, card-add.php, card-update.php, ai-use.txt, css/styles.css, images/ (this will be a folder for a gift card image).
+
+each PHP file should contain only a basic HTML5 page structure. link each page to css/styles.css using a relative path.
+
+do not use PHP programming logic, databases, or JavaScript yet.
+
+### Prompt 2 — Login Page Development
+
+On the login.php page, I want the following layout.
+
+- "AirAsia Rewards" displayed at the upper left corner
+- "Rewards Redemption" centered near the top
+- A centered login box with rounded corners
+- A heading inside the box reading "AirAsia Rewards Login" near the top
+- A required Username field with a maximum of 100 characters
+- A required Password field with a maximum of 100 characters and the appropriate password input type
+- Clearly connected labels for both username and password
+
+When the login button is clicked and the browser meets the requirements to proceed, the form should navigate to card-list.php.
+
+use semantic HTML and external CSS in css/styles.css.
+
+Use AirAsia colors: red and white.
+
+only modify login.php and css/styles.css. Do not use PHP programming logic, databases, or JavaScript yet.
+
+### Prompt 3 — Login Navigation and Layout Revision
+
+this is a static HTML and CSS demonstration, modify the login button so it navigates to card-list.php without submitting the username and password. keep the required field browser validation and design as much as possible. Move the "Rewards Redemption" to below the red ribbon into the space above the login box.
+
+### Prompt 4 — Gift Card List Page
+
+for the card-list.php
+
+-Display "AirAsia Rewards" in the upper-left header
+-Display "Rewards Redemption" centered near the top
+-Include a page heading labeled "Gift Card List"
+-Place an "Add Gift Card" link near the top right that navigates to card-add.php
+-Display three gift cards in separate horizontal, rounded rectangular containers
+-Each container should have a gift card image on the left and the gift card name and points required on the right
+-Use realistic sample gift card names and redemption points of 5,000, 10,000, and 15,000
+-Make each card's image and name clickable, navigating to card-details.php.
+-Use semantic HTML and accessible image alternative text
+
+Keep the styling consistent with login.php using the existing css/styles.css file and AirAsia red-and-white branding.
+
+Use HTML and CSS only, saved in card-list.php. Do not create PHP programming logic, JavaScript, databases, customer pages, or delete-card functionality.
+
+Only modify card-list.php and css/styles.css. Do not modify the completed login page.
+
+### Prompt 5 — Gift Card Redesign
+
+I want to revise card-list.php so all three gift cards use consistent AirAsia Travel eGift Card branding instead of unrelated gift card brands.
+
+Update the three cards to:
+
+1. AirAsia Travel eGift Card - Silver: 5,000 points
+2. AirAsia Travel eGift Card - Gold: 10,000 points
+3. AirAsia Travel eGift Card - Platinum: 15,000 points
+
+Create three sample gift card images that are all matching and use the AirAsia branding as local SVG files in the existing hw2/images folder: airasia-silver.svg, airasia-gold.svg, and airasia-platinum.svg.
+
+Use the same basic design for all three images: a horizontal gift card with AirAsia-inspired red and white branding, the words "AirAsia Travel eGift Card", and a clearly visible Silver, Gold, or Platinum tier label.
+
+Update card-list.php to reference the local images instead of externally hosted Unsplash images. Make sure each image has descriptive alternative text and that the card images and names still link to card-details.php.
+
+Maintain the existing three horizontal card containers, navigation, styling, and redemption points.
+
+Only modify card-list.php, the three new SVG image files, and css/styles.css if necessary. Do not change any other pages or introduce PHP logic, JavaScript, or databases.
+
+### Prompt 6 — Gift Card Details Page
+
+for card-details.php,
+
+-Display "AirAsia Rewards" in the upper-left header and "Rewards Redemption" centered at the top.
+-Include a "Gift Card Details" heading
+-Add a "Back to Gift Card List" link to card-list.php
+-Create a large rounded rectangular container with the gift card image on the left and its information on the right.
+-Use the local image images/airasia-silver.svg.
+-Display these sample details:
+-Card Name: AirAsia Travel eGift Card - Silver
+-Card Type: Travel eGift Card
+-Card Value: $50.00
+-Points Required: 5,000
+-Include an "Update Gift Card" link to card-update.php
+
+Use semantic HTML and descriptive image alternative text
+
+Use the existing external stylesheet css/styles.css and keep the page visually consistent with login.php and card-list.php
+
+Do not include PHP programming logic, JavaScript, or database functionality
+
+Only modify card-details.php and css/styles.css if needed. Do not change any previously completed pages
+
+### Prompt 7 — Add Gift Card Page
+
+for card-add.php,
+
+-Display "AirAsia Rewards" in the upper-left header and "Rewards Redemption" centered near the top.
+-Include an "Add Gift Card" page heading
+-Create a large rounded rectangular form container centered on the page.
+-There are four required form fields with properly connected labels:
+-Card Name: text input, maximum 100 characters.
+-Card Type: text input, maximum 100 characters.
+-Card Value: numeric input that allows decimals (example-50.00)
+-Points Required: numeric input only accepting whole numbers only
+-Clearly indicate required fields with an asterisk
+-Provide a Submit button and a Cancel link.
+-The form should navigate to card-list.php when submitted, after native browser validation.
+-The Cancel link should return to card-list.php.
+
+Use semantic HTML5, accessible labels, and the existing external stylesheet css/styles.css.
+
+Keep the styling consistent with the login, card list, and card details pages.
+
+This assignment is a static demonstration. Do not implement PHP processing, JavaScript, databases, or actual data storage.
+
+Only modify card-add.php and css/styles.css if needed. Do not change previously completed pages.
+
+### Prompt 8 — Remove Card Value Placeholder
+
+remove the 50.00 placeholder sitting in the card value slot. it should remain blank until the user populates it themselves.
+
+### Prompt 9 — Update Gift Card Page
+
+On card-update.php,
+
+-Use the same centered, rounded form container as card-add.php.
+-Include four required form fields with properly connected labels and prepopulated values:
+-Card Name: AirAsia Travel eGift Card - Silver
+-Card Type: Travel eGift Card
+-Card Value: 50.00
+-Points Required: 5000
+-Card Name and Card Type must have a maximum length of 100 characters
+-Card Value must accept decimal numbers using step="0.01"
+-Points Required must accept whole numbers using step="1"
+-Display an asterisk next to each required field
+-Include an Update button and a Cancel link
+-After browser validation, clicking Update should navigate to card-list.php
+-Cancel should also return to card-list.php
+
+The fields should remain editable, but the form does not need to save any changes.
+
+Use semantic HTML5 and the existing external stylesheet css/styles.css. Keep the styling consistent with card-add.php and the other completed pages.
+
+Do not add PHP programming logic, JavaScript, databases, or actual data storage.
+
+Only modify card-update.php and css/styles.css if needed. Do not change any previously completed pages.
+
+### Prompt 10 — Login Header Correction
+
+login.php, move the "rewards redemption" heading back to the red header bar, centered horizontally, matching its position on card-list.php and card-details.php. Keep the rest of the formatting the same. Do not change login form, its position, validation, or navigation.
+
+### Prompt 11 — Navigation and Broken Link Review
+
+Review all five PHP pages, check and tell me where all of the navigation links direct me. Identify any broken links. Do not change the code yet.
+
+### Prompt 12 — Semantic HTML and Accessibility Review
+
+review all five PHP pages, check and tell me if i am using semantic html elements correctly. identify areas where the structure or accessibility could be improved without changing the appearance of the website. do not make any changes to the folder or files.
+
+### Prompt 13 — Form Validation Review
+
+Check that Card Name and Card Type have 100-character limits, Card Value accepts decimal numbers, and Points Required accepts whole numbers. Identify any missing validation requirements.
+
+### Prompt 14 — CSS Consistency Review
+
+Review css/styles.css and the five PHP pages to check whether the AirAsia red-and-white branding, headings, buttons, spacing, and form styling are consistent throughout the website. Identify unnecessary CSS duplication or styling conflicts. Do not modify the files.
+
+## AI supported my work by allowing me to describe my wireframe document in GitHub Copilot, and then Copilot would generate HTML and CSS pages. 
+I gave it specific instructions based on my previously created wireframe document, which was based on the AirAsia Requirements document. 
+I also took into account the requirements in the HW2 directions and tailored my pages to meet them. Copilot assisted in creating the project
+structure, form fields, gift card images, and CSS styling. I would then go through the code and ensure that everything was working correctly. 
+Throughout the homework, I would review the semantic HTML, form validation, navigation links, and ensure that the style remained consistent through all five pages. 
+
+## An example of a change I made was in the Gift Card Value field. Initially, Copilot included a placeholder value of "50.00" in the field,
+and I did not like the look. None of the other fields had placeholders, so I felt that it didn't look right. I asked Copilot to remove the 
+placeholder and allow the user to enter the initial value. Once it updated, I refreshed the page and confirmed that the field was blank.
+
+## Another example of something that I had originally changed but eventually reverted to the original output was the placement of the "Rewards Redemption" 
+heading on the login page. On my wireframe diagram, that heading was in its own white space beneath the AirAsia header, but above the AirAsia Rewards 
+Login box. At first, I wanted it to match my diagram, so I suggested the change, and Copilot made it. As we moved to other pages, Copilot created pages
+that placed the heading on the red ribbon, centered at the top. I grew to like this change and, upon completing the four other pages, decided to reverse 
+my initial decision. I told Copilot to make the change and validated that everything was uniform and correct. 
