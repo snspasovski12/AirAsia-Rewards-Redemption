@@ -1,0 +1,392 @@
+Use Documentation
+
+AI Tool Used: GitHub Copilot in GitHub Codespaces
+
+I used GitHub Copilot to assist with creating and reviewing PHP, PDO, SQLite, HTML, and validation code for the AirAsia Rewards Gift Card
+Management application. I reviewed the generated suggestions against the assignment requirements, my existing HW2 application, and the SQLite database
+schema. I also tested the application in GitHub Codespaces and verified database operations through SQLite queries.
+
+### Prompt 1- Help me create database/schema.sql using SQLite.
+
+The AirAsia Requirements Document specifies two tables for HW3:
+
+ACCOUNT:
+- accountId: INTEGER PRIMARY KEY, automatically generated
+- userId: INTEGER NOT NULL
+- accountType: TEXT NOT NULL, maximum 100 characters
+- points: INTEGER NOT NULL
+
+GIFTCARD:
+- cardId: INTEGER PRIMARY KEY, automatically generated
+- cardName: TEXT NOT NULL, maximum 100 characters
+- cardType: TEXT NOT NULL, maximum 100 characters
+- cardValue: REAL NOT NULL
+- points: INTEGER NOT NULL
+
+Use the exact column names above. Add CHECK constraints for required lengths and numeric values.
+
+Do not create USER, REDEMPTION, login, session, or authorization functionality.
+
+Provide the complete SQL for schema.sql and explain each table and its constraints. Do not create seed data.
+
+
+### Prompt 2- Using the existing hw3/database/schema.sql file, help me generate
+the SQL for hw3/database/seed.sql.
+
+Requirements:
+1. Insert exactly 5 sample records into ACCOUNT.
+2. Insert exactly 20 sample records into GIFTCARD.
+3. Use the exact table and column names from schema.sql.
+4. Use realistic but fictional account and gift card data.
+5. Each gift card must have a Card Name, Card Type, positive
+   Card Value, and positive integer Points Required.
+6. Use several recognizable gift card categories, such as
+   shopping, dining, and entertainment.
+7. Do not add USER or REDEMPTION records.
+8. Do not modify schema.sql or any other files.
+
+Provide complete SQL INSERT statements for seed.sql, followed by an explanation of how to verify the record counts using SELECT COUNT(*).
+
+### Prompt 3- Review the existing pages in hw2 and the CSS files copied
+to hw3/css.
+
+Help me create these reusable templates:
+- hw3/includes/header.php
+- hw3/includes/nav.php
+- hw3/includes/footer.php
+
+Requirements:
+1. Preserve the existing AirAsia branding and visual design
+   from HW2.
+2. header.php should contain the common HTML document setup,
+   viewport metadata, and correct stylesheet links.
+3. nav.php should include navigation links to card-list.php
+   and card-add.php.
+4. footer.php should contain common footer content and
+   closing HTML tags.
+5. Application pages will use require_once to include these files.
+6. Use correct relative paths for files inside hw3.
+7. Do not add login, authorization, customer management,
+   or redemption functionality.
+8. Do not modify HW2 or any existing application pages yet.
+
+### Prompt 4- Review my existing hw3/database/schema.sql and the file
+structure under hw3.
+
+Help me create hw3/includes/db.php to establish a reusable
+PDO connection to hw3/database/rewards.db.
+
+Requirements:
+1. Use PHP PDO with the SQLite driver.
+2. Resolve the database path using __DIR__ so it works
+   in GitHub Codespaces.
+3. Enable PDO exception handling.
+4. Set the default fetch mode to PDO::FETCH_ASSOC.
+5. Enable SQLite foreign key enforcement.
+6. Handle connection failures without exposing sensitive
+   technical details to browser users.
+7. Do not create or modify database tables.
+8. Do not add MySQL, login, sessions, authorization,
+   or other HW4 functionality.
+
+Provide the complete proposed db.php code and explain how
+another PHP page should include and reuse the PDO connection.
+
+### Prompt 5
+
+Review:
+- hw2/card-list.php
+- hw3/card-list.php
+- hw3/css/styles.css
+- hw3/includes/header.php, nav.php, footer.php, and db.php
+- hw3/database/schema.sql
+
+Help me convert hw3/card-list.php from the static HW2 prototype
+into a database-backed PHP page.
+
+Requirements:
+1. Use the existing PDO connection in includes/db.php.
+2. Retrieve all GIFTCARD records from rewards.db.
+3. Display each card's name, image, and points required.
+4. Link the card name or image to card-details.php using
+   its cardId in a GET parameter named card_id.
+5. Include a link to card-add.php.
+6. Use the shared header, navigation, and footer templates
+   with require_once.
+7. Use htmlspecialchars() for database values displayed as HTML.
+8. Preserve the HW2 AirAsia branding and CSS styling
+   as much as possible.
+9. Do not add columns to GIFTCARD. Since the schema has no
+   image column, propose how to use the existing images folder.
+10. Do not add login, authorization, or redemption functionality.
+
+Provide the proposed complete card-list.php code.
+
+### Prompt 6- I want to revise the seed data for my AirAsia Rewards HW3 assignment so it remains consistent with my original
+HW2 prototype.
+
+Please review:
+- hw2/card-list.php
+- hw2/card-details.php
+- hw2/card-add.php
+- hw2/card-update.php
+- hw2/images/
+- hw3/database/schema.sql
+- hw3/database/seed.sql
+
+My HW2 application used Silver, Gold, and Platinum AirAsia
+gift cards.
+
+Requirements:
+1. Preserve the original HW2 gift card types, images,
+   and any established values or points requirements.
+2. Replace the fictional merchants currently in seed.sql
+   with AirAsia Silver, Gold, and Platinum gift card records.
+3. Generate exactly 20 GIFTCARD sample records, using
+   different values where appropriate.
+4. Preserve the five existing ACCOUNT records.
+5. Use only the approved GIFTCARD columns: cardId, cardName,
+   cardType, cardValue, and points.
+6. Ensure all records satisfy the existing schema constraints.
+7. Do not modify schema.sql, HW2 files, or other application files.
+8. Do not invent new business rules or silently change established
+   HW2 values.
+
+First, summarize the original Silver, Gold, and Platinum
+card information found in HW2.
+
+Then provide a complete revised seed.sql for review.
+
+### Prompt 7
+
+Review my existing:
+- hw2/card-details.php
+- hw3/card-details.php
+- hw3/card-list.php
+- hw3/includes/header.php, nav.php, footer.php, and db.php
+- hw3/database/schema.sql
+- hw3/css/styles.css
+- hw3/images/
+
+Help me convert card-details.php into a database-backed PHP page.
+
+Requirements:
+1. Read the card_id GET parameter and validate that it is
+   a positive integer.
+2. Use PDO with a prepared statement to retrieve the matching
+   GIFTCARD record.
+3. Safely handle invalid or nonexistent card IDs.
+4. Display cardName, cardType, cardValue, points, and the
+   appropriate Silver, Gold, or Platinum image.
+5. Use htmlspecialchars() when displaying database values.
+6. Include the shared header, navigation, and footer
+   using require_once.
+7. Provide links to card-update.php, card-delete.php, and
+   card-list.php, passing the selected card_id where appropriate.
+8. Preserve the existing HW2 AirAsia styling.
+9. Do not add login, authorization, customer management,
+   or redemption functionality.
+10. Do not modify existing database records or schema.
+
+Provide the complete proposed PHP code and explain how the GET
+parameter is validated and used in the prepared statement.
+
+### Prompt 8
+
+I am completing HW3 Part 4: Add a Gift Card for my AirAsia
+Rewards application.
+
+Review:
+- hw2/card-add.php
+- hw3/card-add.php
+- hw3/card-list.php
+- hw3/includes/header.php, nav.php, footer.php, and db.php
+- hw3/database/schema.sql
+- hw3/css/styles.css
+
+Help me convert card-add.php into a working PHP form
+that inserts a new GIFTCARD record into SQLite.
+
+Requirements:
+1. Preserve the HW2 AirAsia styling and form layout.
+2. Include shared header, navigation, and footer
+   using require_once.
+3. Collect cardName, cardType, cardValue, and points.
+4. Do not allow the user to enter cardId; SQLite generates it.
+5. Use POST for submission.
+6. Validate all fields on the server, including required name,
+   allowed card type, positive card value, and positive
+   whole-number points.
+7. Show helpful validation errors without losing the user's
+   entered values.
+8. Use the existing PDO connection and a prepared INSERT statement.
+9. Redirect to card-list.php after successful insertion.
+10. Escape values displayed in HTML using htmlspecialchars().
+11. Do not change the database schema or implement HW4 functionality.
+
+Review the existing HW2 form options before deciding which
+card types are allowed. Do not invent new business rules.
+
+Provide the complete proposed card-add.php code and explain
+its validation and insertion workflow.
+
+### Prompt 9
+
+Review:
+- hw2/card-update.php
+- hw3/card-update.php
+- hw3/card-details.php
+- hw3/card-add.php
+- hw3/includes/header.php, nav.php, footer.php, and db.php
+- hw3/database/schema.sql
+- hw3/css/styles.css
+
+Help me convert card-update.php into a database-backed PHP page.
+
+Requirements:
+1. Read and validate card_id from the GET parameter.
+2. Retrieve the existing GIFTCARD record using a PDO
+   prepared SELECT statement.
+3. Display a form prepopulated with the card's current values.
+4. Allow changes to cardName, cardType, cardValue,
+   and points, but not cardId.
+5. Use POST to submit updates.
+6. Validate all submitted values on the server using the same
+   requirements as card-add.php.
+7. Display helpful validation errors and retain entered
+   values when validation fails.
+8. Use a prepared UPDATE statement with a WHERE clause
+   targeting the selected cardId.
+9. After success, redirect to card-details.php?card_id=...
+   and display the updated information.
+10. Safely handle invalid or nonexistent card IDs.
+11. Preserve the HW2 AirAsia styling and shared templates.
+12. Do not change the database schema or implement
+   HW4 functionality.
+
+Reuse the existing validation logic where practical, but do not introduce unnecessary complexity.
+
+Provide the complete proposed card-update.php code and explain the GET, POST, validation, and database update workflow.
+
+### Prompt 10
+
+Review:
+- hw3/card-details.php
+- hw3/card-update.php
+- hw3/card-list.php
+- hw3/includes/db.php
+- hw3/includes/header.php, nav.php, and footer.php
+- hw3/database/schema.sql
+- hw3/css/styles.css
+
+Help me implement hw3/card-delete.php.
+
+Requirements:
+1. Read card_id from the GET parameter and validate it
+   as a positive integer.
+2. Use a PDO prepared SELECT statement to retrieve
+   the selected GIFTCARD record.
+3. Display the card name and ask the user to confirm deletion.
+4. Provide Confirm Delete and Cancel controls.
+5. Require POST for the actual DELETE operation.
+   Never delete through GET.
+6. Use a prepared DELETE statement with WHERE cardId = :card_id.
+7. After successful deletion, redirect to card-list.php.
+8. Handle invalid or nonexistent card IDs safely.
+9. Escape database values displayed in HTML.
+10. Use the shared header, navigation, footer, and existing
+    AirAsia styling.
+11. Do not add HW4 login, authorization, customer management,
+    or redemption functionality.
+12. Do not modify the schema or any other files.
+
+The assignment requires a confirmation page before deletion.
+
+Provide the complete proposed card-delete.php code and explain
+how GET displays confirmation while POST performs the deletion.
+
+### Prompt 11
+
+Review:
+- hw3/card-add.php
+- hw3/card-update.php
+- hw3/database/schema.sql
+- hw3/includes/db.php
+- hw3/css/styles.css
+
+Help me create reusable validation functions
+in hw3/includes/validation.php.
+
+Requirements:
+1. Preserve the validation behavior already working
+   in card-add.php and card-update.php.
+2. Validate Card Name as required and no more than
+   100 characters.
+3. Validate Card Type as required and no more than
+   100 characters.
+4. Validate Card Value as a positive number.
+5. Validate Points Required as a positive whole number.
+6. Include a reusable function for validating card_id
+   as a positive integer.
+7. Return clear validation errors that the application
+   pages can display.
+8. Explain how card-add.php and card-update.php should call
+   the shared validation functions.
+9. Preserve submitted values when validation fails.
+10. Continue using htmlspecialchars() for safe HTML output.
+11. Do not modify the database schema or introduce
+    HW4 functionality.
+12. Avoid changing working CRUD behavior.
+
+Provide the complete proposed validation.php code and identify the specific changes required in card-add.php and card-update.php.
+
+### Prompt 12
+
+Review:
+- hw3/includes/validation.php
+- hw3/card-add.php
+- hw3/card-update.php
+- hw3/database/schema.sql
+- The required five validation tests from HW3
+
+Help me create hw3/tests/validation-tests.php.
+
+Requirements:
+1. Test the actual reusable validation functions.
+2. Do not insert, update, or delete database records.
+3. Include at least five tests:
+   - Valid Gift Card data passes validation
+   - Blank Card Name fails validation
+   - Invalid Card Type fails validation
+   - Zero or negative Card Value fails validation
+   - Invalid Points Required fails validation
+4. For Card Type, use an input that is invalid under the
+   existing rules, such as a blank value or a value over
+   100 characters. Do not invent an allowlist of card types.
+5. Display a clear PASS or FAIL result for every test.
+6. Compare actual validation results with expected outcomes.
+7. Report the total passed and failed tests.
+8. Return a nonzero exit code if any assertion fails.
+9. Do not modify application files, schema.sql, or the database.
+10. Explain how to execute the harness from the repository
+    root in GitHub Codespaces.
+
+## AI Support
+
+When using GitHub Copilot, I was able to type the final format I had in mind for the homework assignment, and Copilot generated the code.
+While going through each line of code, I could then check the prompts against class materials and online resources to understand what 
+was being done. Ultimately, Copilot helped me understand and implement PHP, SQLite, and reusable validation. 
+While GitHub provided the code, I was still responsible for reviewing the output and validating that the application worked as required 
+and met the assignment's requirements. 
+
+## AI Suggestion 
+
+One of the revisions I made to the code was to the seed data. Initially, Copilot generated fictional names for the gift cards, but I 
+wanted to ensure that all AirAsia assignments were aligned. After the output from Copilot and my review, I went through and had the AI
+change the gift card names to AirAsia Silver, Gold, and Platinum to reflect the previous weeks. This consistency helps me keep 
+everything aligned and ensures that if the code were to build on itself week to week, it would use the same nomenclature. 
+
+## Code Verification
+
+I verified the final code and database behavior by testing CRUD workflows in the browser and running the validation test harness.
+Using the test harness, I had nine passed tests and zero failures. 

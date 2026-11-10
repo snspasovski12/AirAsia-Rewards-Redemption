@@ -1,0 +1,553 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+	background: #ffffff;
+	color: #222222;
+	font-family: Arial, sans-serif;
+}
+
+.site-header {
+	min-height: 76px;
+	display: flex;
+	align-items: center;
+	padding: 0 32px;
+	background: #d71920;
+	color: #ffffff;
+}
+
+.brand {
+	grid-column: 1;
+	margin: 0;
+	font-size: 1.1rem;
+	font-weight: 700;
+}
+
+.login-main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 24px;
+	min-height: calc(100vh - 76px);
+	padding: 40px 20px;
+}
+
+.page-title {
+	margin: 0;
+	color: #d71920;
+	font-size: 1.8rem;
+	text-align: center;
+}
+
+.login-box {
+	width: min(100%, 420px);
+	padding: 36px;
+	border: 1px solid #e6e6e6;
+	border-top: 5px solid #d71920;
+	border-radius: 12px;
+	background: #ffffff;
+	box-shadow: 0 8px 28px rgb(0 0 0 / 8%);
+}
+
+.login-box h2 {
+	margin: 0 0 28px;
+	color: #d71920;
+	font-size: 1.5rem;
+	text-align: center;
+}
+
+.form-field {
+	margin-bottom: 20px;
+}
+
+.form-field label {
+	display: block;
+	margin-bottom: 8px;
+	font-weight: 700;
+}
+
+.form-field input {
+	width: 100%;
+	min-height: 46px;
+	padding: 10px 12px;
+	border: 1px solid #b8b8b8;
+	border-radius: 5px;
+	background: #ffffff;
+	color: #222222;
+	font: inherit;
+}
+
+.form-field input:focus-visible {
+	border-color: #d71920;
+	outline: 2px solid #d71920;
+	outline-offset: 2px;
+}
+
+.login-box button {
+	width: 100%;
+	min-height: 46px;
+	margin-top: 4px;
+	border: 0;
+	border-radius: 5px;
+	background: #d71920;
+	color: #ffffff;
+	cursor: pointer;
+	font: inherit;
+	font-weight: 700;
+}
+
+.login-box button:hover {
+	background: #b9151b;
+}
+
+.login-box button:focus-visible {
+	outline: 3px solid #222222;
+	outline-offset: 3px;
+}
+
+.card-list-header {
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
+}
+
+.card-list-header .brand {
+	grid-column: 1;
+}
+
+.redemption-title {
+	grid-column: 2;
+	margin: 0;
+	font-size: 1.4rem;
+	text-align: center;
+}
+
+.card-list-main {
+	width: min(100%, 1000px);
+	margin: 0 auto;
+	padding: 36px 24px 48px;
+}
+
+.list-heading-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+}
+
+.list-page-heading {
+	margin: 0;
+	color: #d71920;
+	font-size: 1.8rem;
+}
+
+.add-gift-card {
+	display: inline-flex;
+	min-height: 44px;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 16px;
+	border-radius: 5px;
+	background: #d71920;
+	color: #ffffff;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.add-gift-card:hover {
+	background: #b9151b;
+}
+
+.add-gift-card:focus-visible,
+.gift-card a:focus-visible {
+	outline: 3px solid #222222;
+	outline-offset: 3px;
+}
+
+.gift-card-list {
+	display: grid;
+	gap: 16px;
+	margin: 24px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.gift-card {
+	display: flex;
+	min-height: 164px;
+	align-items: center;
+	gap: 24px;
+	padding: 16px;
+	border: 1px solid #e6e6e6;
+	border-left: 5px solid #d71920;
+	border-radius: 10px;
+	background: #ffffff;
+	box-shadow: 0 5px 18px rgb(0 0 0 / 6%);
+}
+
+.gift-card-image-link {
+	display: block;
+	width: 190px;
+	height: 128px;
+	flex: 0 0 190px;
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.gift-card-image-link img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.gift-card-info {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+}
+
+.gift-card-info h3 {
+	margin: 0;
+	font-size: 1.2rem;
+}
+
+.gift-card-info h3 a {
+	color: #222222;
+	text-decoration: none;
+}
+
+.gift-card-info h3 a:hover {
+	color: #d71920;
+	text-decoration: underline;
+}
+
+.gift-card-points {
+	display: grid;
+	gap: 5px;
+	margin: 0;
+	text-align: right;
+}
+
+.gift-card-points span {
+	color: #555555;
+	font-size: 0.9rem;
+}
+
+.gift-card-points strong {
+	color: #d71920;
+	font-size: 1.1rem;
+}
+
+.details-main {
+	width: min(100%, 1000px);
+	margin: 0 auto;
+	padding: 36px 24px 48px;
+}
+
+.details-heading-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 24px;
+}
+
+.details-page-heading {
+	margin: 0;
+	color: #d71920;
+	font-size: 1.8rem;
+}
+
+.back-to-list {
+	color: #d71920;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.back-to-list:hover {
+	text-decoration: underline;
+}
+
+.details-card {
+	display: grid;
+	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+	align-items: center;
+	gap: 36px;
+	min-height: 390px;
+	padding: 32px;
+	border: 1px solid #e6e6e6;
+	border-left: 5px solid #d71920;
+	border-radius: 12px;
+	background: #ffffff;
+	box-shadow: 0 8px 28px rgb(0 0 0 / 8%);
+}
+
+.details-card-image {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 10px;
+	box-shadow: 0 5px 18px rgb(0 0 0 / 12%);
+}
+
+.details-information h3 {
+	margin: 0 0 24px;
+	color: #222222;
+	font-size: 1.5rem;
+}
+
+.card-facts {
+	margin: 0 0 28px;
+}
+
+.card-facts div {
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+	padding: 14px 0;
+	border-bottom: 1px solid #e6e6e6;
+}
+
+.card-facts dt {
+	color: #555555;
+}
+
+.card-facts dd {
+	margin: 0;
+	font-weight: 700;
+	text-align: right;
+}
+
+.update-gift-card {
+	display: inline-flex;
+	min-height: 46px;
+	align-items: center;
+	justify-content: center;
+	padding: 11px 18px;
+	border-radius: 5px;
+	background: #d71920;
+	color: #ffffff;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.update-gift-card:hover {
+	background: #b9151b;
+}
+
+.back-to-list:focus-visible,
+.update-gift-card:focus-visible {
+	outline: 3px solid #222222;
+	outline-offset: 3px;
+}
+
+.add-form-main {
+	width: min(100%, 760px);
+	margin: 0 auto;
+	padding: 36px 24px 48px;
+}
+
+.add-page-heading {
+	margin: 0 0 24px;
+	color: #d71920;
+	font-size: 1.8rem;
+	text-align: center;
+}
+
+.gift-form-container {
+	width: 100%;
+	padding: 36px;
+	border: 1px solid #e6e6e6;
+	border-top: 5px solid #d71920;
+	border-radius: 12px;
+	background: #ffffff;
+	box-shadow: 0 8px 28px rgb(0 0 0 / 8%);
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.required-note {
+	margin: 0 0 24px;
+	color: #555555;
+	font-size: 0.9rem;
+}
+
+.required-indicator,
+.required-note span {
+	color: #d71920;
+	font-weight: 700;
+}
+
+.gift-form-container .form-field {
+	margin-bottom: 22px;
+}
+
+.add-form-actions {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-top: 28px;
+}
+
+.add-form-submit,
+.add-form-cancel {
+	display: inline-flex;
+	min-height: 46px;
+	align-items: center;
+	justify-content: center;
+	padding: 11px 20px;
+	border: 1px solid #d71920;
+	border-radius: 5px;
+	font: inherit;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.add-form-submit {
+	background: #d71920;
+	color: #ffffff;
+	cursor: pointer;
+}
+
+.add-form-submit:hover {
+	background: #b9151b;
+}
+
+.add-form-cancel {
+	background: #ffffff;
+	color: #d71920;
+}
+
+.add-form-cancel:hover {
+	background: #fff4f4;
+}
+
+.add-form-submit:focus-visible,
+.add-form-cancel:focus-visible {
+	outline: 3px solid #222222;
+	outline-offset: 3px;
+}
+
+@media (max-width: 520px) {
+	.site-header {
+		min-height: 64px;
+		padding: 0 20px;
+	}
+
+	.login-main {
+		min-height: calc(100vh - 64px);
+		gap: 20px;
+	}
+
+	.page-title {
+		font-size: 1.5rem;
+	}
+
+	.login-box {
+		padding: 28px 22px;
+	}
+
+	.card-list-header {
+		grid-template-columns: 1fr;
+		gap: 8px;
+		padding: 12px 20px;
+	}
+
+	.redemption-title {
+		grid-column: 1;
+		justify-self: center;
+		font-size: 1.2rem;
+	}
+
+	.card-list-main {
+		padding: 28px 20px 40px;
+	}
+
+	.list-page-heading {
+		font-size: 1.5rem;
+	}
+
+	.add-gift-card {
+		padding: 9px 12px;
+		font-size: 0.9rem;
+	}
+
+	.gift-card {
+		align-items: stretch;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	.gift-card-image-link {
+		width: 100%;
+		height: 180px;
+		flex-basis: 180px;
+	}
+
+	.gift-card-info {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.gift-card-points {
+		text-align: left;
+	}
+
+	.details-main {
+		padding: 28px 20px 40px;
+	}
+
+	.details-heading-row {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.details-page-heading {
+		font-size: 1.5rem;
+	}
+
+	.details-card {
+		grid-template-columns: 1fr;
+		gap: 24px;
+		min-height: 0;
+		padding: 22px;
+	}
+
+	.details-information h3 {
+		font-size: 1.3rem;
+	}
+
+	.add-form-main {
+		padding: 28px 20px 40px;
+	}
+
+	.add-page-heading {
+		font-size: 1.5rem;
+	}
+
+	.gift-form-container {
+		padding: 26px 22px;
+	}
+
+	.add-form-actions {
+		align-items: stretch;
+		flex-direction: column;
+	}
+}
