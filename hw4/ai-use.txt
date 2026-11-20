@@ -1,0 +1,556 @@
+Use Documentation
+
+AI Tool Used: GitHub Copilot and ChatGPT
+
+I used GitHub Copilot and ChatGPT to assist me with developing, reviewing, and troubleshooting HW4's AirAsia Rewards Redemption and ensuring that it flowed along 
+with HW3. I used ChatGPT to help me build prompts using the homework documentation and ensure that I was including all of the relevant information.
+I would then prompt Copilot and then review the suggestions made against the homework's requirements. I would then verify functionality through 
+browser testing and made the corrections as needed.
+
+## Prompt 1
+
+Preserve the existing ACCOUNT and GIFTCARD table definitions, column names, and validation constraints.
+
+Add a USER table with these exact columns from the AirAsia Requirements Document:
+- userId INTEGER PRIMARY KEY
+- userName TEXT NOT NULL UNIQUE, maximum 100 characters
+- password TEXT NOT NULL, sufficient to store PHP password_hash() output
+- firstName TEXT NOT NULL, maximum 100 characters
+- lastName TEXT NOT NULL, maximum 100 characters
+- role TEXT NOT NULL, restricted to Admin or Customer
+
+Add a REDEMPTION table with these exact columns:
+- redeemId INTEGER PRIMARY KEY
+- date TEXT NOT NULL, maximum 100 characters
+- accountId INTEGER NOT NULL, foreign key referencing ACCOUNT(accountId)
+- cardId INTEGER NOT NULL, foreign key referencing GIFTCARD(cardId)
+- pointsRedeemed INTEGER NOT NULL, positive integer
+
+## Prompt 2
+
+The current seed.sql contains five ACCOUNT records with userId values 1001–1005 and 20 GIFTCARD records. Preserve every existing ACCOUNT and GIFTCARD INSERT statement and its data exactly.
+
+Add USER INSERT statements before the ACCOUNT INSERT statements so that users exist before their related accounts when the database is seeded.
+
+The USER table has these exact columns:
+userId, userName, password, firstName, lastName, role.
+
+Required testing accounts:
+1. userId 1001, userName bsmith, password mysecret, role Admin.
+2. userId 1002, userName pjones, password acrobat, role Customer.
+
+Create three additional sample Customer users for userIds 1003, 1004, and 1005 with distinct usernames and reasonable sample first and last names.
+
+IMPORTANT SECURITY REQUIREMENTS:
+- Never store plaintext passwords in seed.sql or the database.
+- Generate usable password hashes using PHP password_hash() with PASSWORD_DEFAULT.
+- Use appropriate hashed passwords for all five seeded users.
+- Keep each password hash as a complete SQL string literal.
+- Do not use SQL functions to generate hashes.
+- Do not display passwords in application output.
+- Use the exact USER table column names and the Admin/Customer role capitalization.
+
+## Prompt 3
+
+Implement HW4 Part 2 secure login and session management in the hw4 folder of my AirAsia Rewards Redemption project.
+
+Current environment:
+- PHP with SQLite and PDO.
+- The working database is hw4/database/rewards.db.
+- The existing PDO connection is hw4/includes/db.php and exposes $pdo.
+- The USER table contains userId, userName, password, firstName, lastName, and role.
+- Passwords are stored using PHP password_hash() with PASSWORD_DEFAULT.
+- The test accounts are bsmith (Admin) and pjones (Customer).
+- Existing presentation files include hw4/includes/header.php, nav.php, footer.php, and hw4/css/.
+
+First inspect these existing files before implementing anything:
+- hw4/includes/header.php
+- hw4/includes/nav.php
+- hw4/includes/footer.php
+- hw4/includes/db.php
+- hw4/card-list.php
+- relevant CSS files
+
+Implement the following files:
+
+1. hw4/login.php
+- Display a login form with required username and password fields.
+- Use POST to submit the form to authenticate.php.
+- Match the existing AirAsia application layout and styling.
+- Display a generic login failure message without identifying whether the username or password was incorrect.
+- Escape displayed dynamic values using htmlspecialchars().
+- Include CSRF protection.
+
+2. hw4/authenticate.php
+- Accept POST requests only.
+- Verify the CSRF token.
+- Validate that username and password were provided.
+- Query USER by userName using a prepared PDO statement.
+- Verify the submitted password using password_verify().
+- Regenerate the session ID using session_regenerate_id(true) after successful authentication.
+- Store userId, userName, and role in the session.
+- Redirect successful logins to card-list.php.
+- Redirect failed logins to login.php with a generic error.
+- Never store or log plaintext passwords.
+- Do not reveal whether a username exists.
+
+3. hw4/includes/auth.php
+- Initialize the PHP session securely and only once.
+- Provide reusable functions to determine whether the user is authenticated.
+- Provide a function to require login and redirect unauthenticated users.
+- Provide CSRF token generation and verification helpers.
+- Provide reusable role-checking helpers for later authorization work.
+- Preserve compatibility with the existing PHP application.
+
+4. hw4/logout.php
+- End the authenticated session securely.
+- Clear session data and invalidate the session cookie.
+- Destroy the session and redirect to login.php.
+- Use POST and CSRF protection for the logout action.
+
+- Do not modify the database schema, seed data, or rewards.db.
+- Do not modify any HW3 files.
+- Do not implement customer registration or redemption yet.
+- Do not make the existing gift card CRUD pages publicly accessible as a side effect of these changes.
+- Reuse the existing shared layout and styling where practical.
+- Explain the changes before applying them.
+- After implementation, run PHP syntax checks on all new files and report the results.
+Show me exactly which files were created or modified and summarize how login, sessions, and logout work.
+
+## Prompt 4
+
+Implement HW4 Part 3 and Part 4: session protection and role-based authorization for the AirAsia Rewards Redemption application.
+
+Work only in the hw4 folder. Do not modify hw3, database files, schema.sql, or seed.sql. Do not commit or push.
+
+First inspect:
+- hw4/includes/auth.php
+- hw4/includes/nav.php
+- hw4/card-list.php
+- hw4/card-details.php
+- hw4/card-add.php
+- hw4/card-update.php
+- hw4/card-delete.php
+- hw4/login.php
+- hw4/logout.php
+- Existing header, footer, and CSS files.
+
+The existing authentication system already stores userId, userName, and role in the PHP session. Reuse its functions instead of creating duplicate session management.
+
+Required permissions:
+- Admin: view gift card list and details; add, update, and delete gift cards.
+- Customer: view gift card list and details; cannot add, update, or delete gift cards.
+- All gift card pages require authentication.
+- Customer profile and redemption pages will be added later.
+
+Implementation requirements:
+
+1. Protect card-list.php, card-details.php, card-add.php, card-update.php, and card-delete.php.
+   - Require login before any protected page output.
+   - Redirect unauthenticated users to login.php and stop processing.
+   - Restrict add, update, and delete pages to Admin users.
+   - Enforce access restrictions on the server, including direct URL requests.
+   - Do not rely on hidden navigation links for security.
+   - Use HTTP 403 for authenticated users attempting unauthorized actions.
+2. Update navigation:
+   - Both roles can see Gift Card List.
+   - Only Admin users can see Add Gift Card.
+   - Show the logged-in username and role.
+   - Add a functional POST logout form using the existing CSRF helper and logout.php.
+   - Do not create a GET logout link.
+3. Update card-list.php:
+   - Hide the Add Gift Card button in the page content for Customers.
+   - Preserve the existing 20-card database display and styling.
+4. Update card-details.php:
+   - Hide update and delete controls from Customers.
+   - Preserve gift card details and images.
+5. Preserve existing CRUD behavior for Admin users, including form validation and database operations.
+6. Review existing POST handling for card creation, updates, and deletion. Preserve or add appropriate CSRF validation for state-changing requests. Do not permit state-changing operations through GET.
+7. Keep login.php accessible without requiring an authenticated session, and avoid redirect loops.
+8. Perform PHP syntax checks on every modified file.
+9. Test:
+   - Unauthenticated access to each protected page is rejected.
+   - Admin can view and manage gift cards.
+   - Customer can view list and details.
+   - Customer receives HTTP 403 when directly accessing Admin-only pages.
+   - Customer cannot trigger Admin-only database changes.
+   - Logout terminates the session.
+
+## Prompt 5 — Add Customer
+
+Implement HW4 Part 5: Add a Customer for my AirAsia Rewards Redemption application.
+
+Work only inside hw4. Do not modify hw3 or the database schema or seed files. Do not commit or push.
+
+First inspect:
+- hw4/includes/auth.php
+- hw4/includes/db.php
+- hw4/includes/validation.php
+- hw4/includes/nav.php
+- hw4/card-add.php
+- hw4/css/styles.css
+- hw4/database/schema.sql
+- The existing USER and ACCOUNT table definitions.
+
+Create hw4/cust-add.php.
+
+Requirements:
+1. Restrict access to authenticated Admin users only, using the existing session and authorization helpers.
+2. Require login and role authorization before rendering HTML or processing a submission.
+3. Display a form with first name, last name, username, password, and any additional required customer account fields.
+4. Validate all submitted values on the server.
+5. Enforce the USER table's 100-character limits.
+6. Reject duplicate usernames.
+7. Hash new passwords using PHP password_hash(PASSWORD_DEFAULT). Never store plaintext passwords.
+8. Insert the new USER record using a prepared PDO statement.
+9. Create a related ACCOUNT record using the new userId. Use the approved ACCOUNT columns: accountId, userId, accountType, and points.
+10. Use one PDO transaction for creating the USER and related ACCOUNT records so partial customer creation cannot occur.
+11. Choose explicit, reasonable initial account values, explain them, and do not present them as values specified by the requirements unless they actually are.
+12. Include CSRF protection on the form and submission.
+13. Show a success confirmation including the new customer's non-sensitive information, but never show the password or hash.
+14. Handle invalid input, duplicate usernames, database errors, and transaction rollback safely.
+15. Match the existing AirAsia CSS styling and shared header, navigation, and footer.
+16. Add an Add Customer navigation link visible only to Admin users.
+17. Prevent Customers from opening cust-add.php directly; return HTTP 403.
+18. Preserve existing CRUD functionality and existing database records.
+
+Before editing, explain the planned changes.
+
+After implementing, run PHP syntax checks and test:
+- Admin can access the Add Customer page.
+- Customer receives HTTP 403.
+- Unauthenticated user is redirected to login.
+- Duplicate username is rejected.
+- Invalid CSRF token is rejected.
+- Successful creation inserts exactly one USER and one ACCOUNT record.
+- The stored password passes password_verify().
+- A failed creation leaves neither partial record.
+- Confirmation does not expose the plaintext password or stored hash.
+
+Perform creation tests using a disposable temporary copy of the SQLite database, not the working hw4/database/rewards.db.
+
+List every modified file, test results, and remaining issues.
+
+## Prompt 6 — Customer Profile
+
+Implement HW4 Part 6: Customer Profile and Account Points for the AirAsia Rewards Redemption application.
+
+Work only inside hw4. Do not modify hw3, schema.sql, seed.sql, or the working database. Do not commit or push changes.
+
+First inspect:
+- hw4/includes/auth.php
+- hw4/includes/db.php
+- hw4/includes/nav.php
+- hw4/cust-add.php
+- hw4/css/styles.css
+- hw4/database/schema.sql
+- hw4/login.php
+
+Create hw4/customer-profile.php.
+
+Requirements:
+1. Only authenticated users with the Customer role can access this page.
+2. Unauthenticated users must be redirected to login.php.
+3. Admin users must receive HTTP 403.
+4. Identify the logged-in customer exclusively from the server-side session userId.
+5. Do not trust URL parameters, form fields, or cookies as substitutes for the session userId.
+6. Retrieve customer information from USER and account information from ACCOUNT using a prepared PDO statement.
+7. Use the existing relationship ACCOUNT.userId = USER.userId.
+8. Display the customer's first name, last name, username, account type, and available rewards points.
+9. Display information in a read-only format.
+10. If a customer has multiple associated accounts, display them accurately rather than assuming there is only one account.
+11. Never display the stored password or password hash.
+12. Escape all displayed dynamic values using htmlspecialchars().
+13. Handle missing customer or account records safely.
+14. Match the existing AirAsia header, navigation, footer, and CSS styling.
+15. Add a Customer Profile link to the navigation visible only to Customer users.
+16. Preserve all existing gift card CRUD, login, logout, and customer creation functionality.
+
+Security requirements:
+- A Customer must not be able to view another customer's profile by changing a URL parameter.
+- Do not accept a userId or accountId from the browser to determine whose information to display.
+- Do not allow profile data to be edited through this page.
+
+Before editing, explain the proposed changes.
+
+After implementing:
+- Run PHP syntax checks.
+- Verify Customer access.
+- Verify Admin receives HTTP 403.
+- Verify unauthenticated users are redirected to login.php.
+- Test whether changing userId or accountId URL parameters can expose another customer's information.
+- Verify that the displayed point balance matches the database.
+- Verify that passwords and password hashes are never displayed.
+- Use temporary testing methods without modifying the working database.
+
+List all modified files and test results. Do not commit or push.
+
+## Prompt 7 — Gift Card Redemption
+
+Implement HW4 Part 7: Gift Card Redemption for the AirAsia Rewards Redemption application.
+
+Work only inside hw4. Do not modify hw3, schema.sql, seed.sql, or the working rewards.db. Do not commit or push.
+
+First inspect:
+- hw4/includes/auth.php
+- hw4/includes/db.php
+- hw4/includes/nav.php
+- hw4/customer-profile.php
+- hw4/card-list.php
+- hw4/card-details.php
+- hw4/database/schema.sql
+- hw4/css/styles.css
+- Existing authentication, CSRF, and validation helpers
+
+Follow the AirAsia Requirements Document and HW4 assignment. In particular, verify the role rules: the requirements document lists both Customer and Admin for redemption, and the HW4 assignment says the requirements document controls when it differs from the general permissions table. Explain how you resolve this before editing.
+
+Create:
+- hw4/redeem.php
+- hw4/process-redemption.php
+
+Required workflow:
+1. An authorized signed-in user can view available gift cards and select one to redeem.
+2. Display the gift card name, value, and required points.
+3. Display the selected rewards account and current available points.
+4. If multiple accounts exist for the signed-in user, allow a safe account selection or otherwise explicitly identify the account being used.
+5. Require explicit confirmation before redemption.
+6. Use POST and valid CSRF protection for the redemption submission.
+7. Identify the user exclusively from the authenticated session.
+8. Validate cardId and accountId on the server using prepared PDO queries.
+9. Verify that the account belongs to the authenticated user.
+10. Confirm the selected gift card exists and retrieve its actual point cost from GIFTCARD. Never trust client-submitted points or card values.
+11. Reject requests when the account lacks sufficient points.
+12. Insert a REDEMPTION record with redeemId, date, accountId, cardId, and pointsRedeemed.
+13. Deduct the required points from the selected ACCOUNT.
+14. Use one PDO transaction for the redemption insert and point deduction.
+15. Ensure concurrent or repeated submissions cannot result in negative points. Use an atomic conditional point deduction, verify the affected row count, and roll back on any failure. Explain the chosen SQLite transaction strategy.
+16. If either operation fails, roll back the entire transaction.
+17. Never create a redemption record when insufficient points are available.
+18. Show a success confirmation with gift card name, redeemed points, and updated balance.
+19. Display helpful, safe error messages for failed redemptions.
+20. Escape all dynamic output using htmlspecialchars().
+21. Use the existing AirAsia styling and shared header, navigation, and footer.
+22. Add appropriate redemption navigation or links for authorized users only.
+23. Preserve all working CRUD, customer creation, login, logout, and customer profile functionality.
+
+Test everything using a disposable copy of the database, not the working database.
+
+Required tests:
+- Authorized user can access the redemption workflow.
+- Unauthenticated access redirects to login.
+- Unauthorized requests are rejected.
+- Users cannot redeem against another person's account.
+- Valid Silver redemption deducts 5000 points.
+- Valid Gold redemption deducts 10000 points.
+- Insufficient-point Platinum redemption leaves the database unchanged.
+- Successful redemption inserts exactly one REDEMPTION record.
+- Database balance matches the success confirmation.
+- Invalid cardId and accountId are rejected.
+- Invalid CSRF token is rejected.
+- Database failure rolls back all changes.
+- Repeated or concurrent submissions cannot overdraw the account.
+- PHP syntax checks pass for all new or modified files.
+
+Before editing, explain the proposed changes and role decisions.
+
+After implementation, report:
+- Files created or modified
+- Transaction design
+- Test results
+- Any issues or unresolved requirements
+
+Do not commit or push changes.
+
+## Prompt 8 — Investigate Duplicate Redemptions
+
+Review the existing HW4 gift card redemption implementation for duplicate submission risks. Do not modify any files yet.
+
+Context:
+- Test customer hw4testuser started with 10000 points.
+- Redemption ID 1: Silver gift card, 5000 points, 2026-11-20.
+- Redemption ID 2: Silver gift card, 5000 points, 2026-11-20.
+- Current account balance: 0 points.
+- A later Platinum redemption was rejected for insufficient points.
+- We have not established why the second Silver redemption occurred.
+
+Inspect:
+- hw4/redeem.php
+- hw4/process-redemption.php
+- hw4/includes/auth.php
+- Relevant form submission and transaction logic.
+
+Determine:
+1. Whether clicking Confirm Redemption twice could create two redemption records.
+2. Whether refreshing or resubmitting process-redemption.php could create another redemption.
+3. Whether the current CSRF token prevents duplicate submissions or only validates the request.
+4. Whether BEGIN IMMEDIATE and conditional point deduction prevent duplicate submissions, or only prevent negative account balances.
+5. Whether the application uses a POST/Redirect/GET pattern.
+6. Whether a one-time redemption token or another idempotency safeguard is appropriate.
+7. Whether the current code meets the HW4 rubric even if duplicate submissions remain possible.
+
+Do not assume the second Silver redemption was caused by a software defect.
+
+Report findings with file names and line numbers. Recommend the smallest safe improvement if needed.
+
+Do not edit code, modify the database, or commit changes.
+
+## Prompt 9 — README Use Case Traceability
+
+Update the existing repository-root README.md for HW4 Part 8: Use Case Traceability.
+
+Important:
+- README.md is located at the repository root, not inside hw4.
+- Do not create hw4/README.md.
+- Do not modify files other than the root README.md.
+- Do not commit or push.
+
+First read the entire existing README.md and inspect the actual HW4 PHP files needed to verify the implementation.
+
+Preserve the existing HW3 Gift Card CRUD use cases and their test evidence.
+
+Update the Use Case Traceability section to add these HW4 use cases:
+
+1. Login to the system
+   PHP: hw4/login.php, hw4/authenticate.php
+   Database: USER
+   Evidence: Admin bsmith and Customer pjones successfully authenticated using password_verify(), and invalid credentials were rejected.
+
+2. Log out of the system
+   PHP: hw4/logout.php
+   Database: Session only
+   Evidence: Logout destroyed the authenticated session and redirected to login.php.
+
+3. Add a new customer
+   PHP: hw4/cust-add.php
+   Database: USER, ACCOUNT
+   Evidence: Admin created hw4testuser, customer ID 1006, with a hashed password and a Standard Rewards account containing 10000 initial points. Customer creation and rollback were also tested.
+
+4. View customer profile and points
+   PHP: hw4/customer-profile.php
+   Database: USER, ACCOUNT
+   Evidence: hw4testuser successfully viewed their own profile and initial 10000 points. Session-based ownership and role authorization were tested.
+
+5. Redeem a Gift Card
+   PHP: hw4/redeem.php, hw4/process-redemption.php
+   Database: ACCOUNT, GIFTCARD, REDEMPTION
+   Evidence: Silver redemption ID 1 deducted 5000 points and inserted a REDEMPTION record. A second Silver redemption ID 2 was also recorded, leaving the balance at 0. A later Platinum attempt was rejected for insufficient points. Automated testing separately verified transaction rollback, account ownership, and concurrency handling.
+
+Also document:
+- Authentication and role-based authorization are enforced server-side.
+- Admin-only pages cannot be accessed directly by Customer users.
+- The existing HW3 functionality remains available to Admin users.
+- The redemption system uses a transaction and conditional account point deduction.
+- Two Silver redemption records were observed; their cause was not established. Do not characterize them as a confirmed application defect or claim duplicate-submission prevention that has not been verified.
+
+Maintain the current README structure and Markdown formatting.
+Use the exact implemented file names and database table names.
+Preserve existing accurate documentation.
+Do not invent test results or claim unperformed verification.
+
+Before editing, summarize planned changes.
+After editing, show the updated traceability table and explain what changed.
+Do not modify any database records or application code.
+
+## Prompt 10 — HW4 Test Report
+
+Update hw4/test-report.md for HW4 Part 9 of the AirAsia Rewards Redemption assignment.
+
+Work only on hw4/test-report.md. Do not modify application code, database files, schema.sql, seed.sql, README.md, or hw3. Do not commit or push.
+
+First inspect:
+- hw4/test-report.md
+- hw4/tests/validation-tests.php
+- hw4/includes/auth.php
+- hw4/login.php
+- hw4/authenticate.php
+- hw4/logout.php
+- hw4/cust-add.php
+- hw4/customer-profile.php
+- hw4/redeem.php
+- hw4/process-redemption.php
+- hw4/database/schema.sql
+
+Preserve all accurate existing HW3 test documentation.
+
+Add HW4 test cases T09 through T16, describing:
+T09 — Successful Admin login
+T10 — Successful Customer login
+T11 — Invalid credentials rejected
+T12 — Session protection and logout
+T13 — Role-based authorization and direct URL restrictions
+T14 — Add Customer validation, password hashing, and transactional account creation
+T15 — Customer Profile ownership and account balances
+T16 — Gift Card Redemption including sufficient and insufficient points, atomic database updates, rollback, and concurrency.
+
+For every test case include:
+- Test ID
+- Description
+- Test steps or inputs
+- Expected result
+- Actual result
+- Pass/fail status
+- Evidence or verification method
+
+Use only actual testing evidence provided below or verifiable in existing project logs.
+
+Confirmed testing evidence:
+1. bsmith successfully logged in as Admin with password mysecret.
+2. pjones successfully logged in as Customer with password acrobat.
+3. Invalid credentials generated the generic login error.
+4. Logout terminated access to protected pages; GET logout was rejected.
+5. Unauthenticated protected requests redirected to login.
+6. Customers received HTTP 403 when accessing Admin-only add, update, delete, and add-customer pages.
+7. Customer POST attempts to modify gift cards returned 403; the gift card count remained 20.
+8. Existing validation tests passed 9/9.
+9. Admin created hw4testuser (userId 1006), with a related Standard Rewards account starting at 10000 points.
+10. The new customer's password was reset and confirmed with password_verify(). Do not claim the initially entered password passed verification.
+11. Customer Profile displayed the correct account and initial 10000 points for hw4testuser.
+12. Automated Customer Profile tests verified session-based ownership, multiple account handling, safe output, and missing-account behavior.
+13. Redemption ID 1: Silver card, cardId 1, 5000 points deducted from accountId 6, dated 2026-11-20.
+14. Redemption ID 2: another Silver card, cardId 1, 5000 points deducted from the same account.
+15. Following both Silver redemptions, accountId 6 had 0 points.
+16. A subsequent Platinum redemption was rejected with an insufficient-points message. No Platinum redemption record was found in the reviewed redemption history.
+17. Automated redemption testing in a disposable database verified Silver and Gold transactions, insufficient-point rejection, account ownership, invalid input, CSRF protection, transaction rollback, and concurrent submissions without overdrawing points.
+18. The cause of the second Silver redemption remains unknown. Do not claim that all duplicate submissions are prevented.
+
+Clearly label evidence as manual browser testing, direct database verification, or Copilot-reported automated testing, as applicable.
+
+Do not invent additional testing results.
+If the current document has a different T09–T16 naming convention from the assignment, flag that difference instead of silently overriding it.
+
+Use a clear Markdown table and concise explanatory notes.
+Before editing, summarize the plan.
+After editing, show the test summary, any failures or observations, and exactly which file changed.
+
+Do not alter any other files or run destructive tests against the working database.
+
+
+## AI Support
+
+When using GitHub Copilot and ChatGPT, I was able to type the final format I had in mind for the homework assignment, and Copilot generated the code.
+While going through each line of code, I could then check the prompts against class materials and online resources to understand what 
+was being done. Ultimately, Copilot helped me understand and implement PHP, SQLite, and reusable validation. 
+While GitHub provided the code, I was still responsible for reviewing the output and validating that the application worked as required 
+and met the assignment's requirements. 
+
+## AI Suggestion 
+
+During this weeks assignment, I used Copilot to assit with implementing authentication, authorization, customer management, and gift card redemption. I would
+then test the suggestions and functionality that was output. One of the issues that i ran into was when i would create a new customer, there password
+would not match the stored password. I verified the issue using PHP and then reset the password, confirming that the account could log in. 
+
+During redemption testing, I also noticed that two Silver gift card redemptions had been recorded. I reviewed the database records and asked Copilot 
+to investigate. The review showed that the application prevents a negative points balance but does not necessarily prevent the same redemption request 
+from being submitted more than once.
+
+## Code Verification
+I verified the final code and database behavior by testing CRUD workflows in the browser and running the validation test harness. 
+Using the test harness, I had nine passed tests and zero failures.
+
+I tested authentication by logging in with both admin and customer accounts and then verifying that incorrect credentials would be rejected. I tested 
+authorization by confirming that customers could view gift cards but could not access admin only function. I then was able to test customer creation
+and profile features by adding a new customer and verifying their account information and points balance. During gift card redemption, I was able to
+redeem a silver gift card and check the database to confirm that the points were deducted and a redemption record was created. I then attemped to redeem
+another Platinum card without enough points and verified that the application was rejected. 
+
+
